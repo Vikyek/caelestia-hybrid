@@ -99,7 +99,7 @@ void CavaProcessor::initCava() {
         return;
     }
 
-    m_plan = cava_init(m_bars, ac::k_sampleRate, 1, 1, 0.85, 50, 10000);
+    m_plan = cava_init(m_bars, ac::k_sampleRate, 1, 1, 0.85, 50, 10000, 0);
     m_out = new double[static_cast<size_t>(m_bars)];
 }
 
