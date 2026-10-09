@@ -71,3 +71,9 @@ Source file does not exist: .*/\.face
 # once per process. Fixing it means changing an upstream file for a cosmetic warning,
 # which is the wrong trade (hard rule 6) -- report it upstream instead.
 Tokens\.\w+ accessed without a screen set on Anim
+
+# Environmental missing third-party app icons from desktop entries
+Could not load icon ".*" at size QSize\(.*\) from request
+
+# QtWayland textinput focus enable/disable harmless race
+qt\.qpa\.wayland\.textinput: virtual void QtWaylandClient::QWaylandTextInputv3::(enable|disable)Surface\(wl_surface\*\)
