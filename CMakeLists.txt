@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.19)
 
-set(REMOTE_REPO_URL "https://github.com/caelestia-dots/shell.git")
+set(REMOTE_REPO_URL "https://github.com/Vikyek/caelestia-hybrid.git")
 
 # A fork must not report upstream's identity. REMOTE_REPO_URL above points at
 # caelestia-dots/shell, so a bare configure here baked in *upstream's* newest tag and
