@@ -106,6 +106,23 @@ Singleton {
             return "";
 
         const props = stream.properties || {};
+        const nodeName = props["node.name"] || stream.name || "";
+        const appName = props["application.name"] || "";
+        const appBinary = props["application.process.binary"] || "";
+
+        if (nodeName === "quickshell" || appName === "quickshell" || appBinary === "quickshell" || appBinary.endsWith("/quickshell") || stream.name === "quickshell") {
+            const role = (props["media.role"] || "").toLowerCase();
+            if (role === "notification") {
+                const notifIcon = Quickshell.iconPath("preferences-desktop-notification", "") || Quickshell.iconPath("notifications", "") || Quickshell.iconPath("notification", "") || Quickshell.iconPath("audio-volume-high", "");
+                if (notifIcon)
+                    return notifIcon;
+            } else {
+                const soundIcon = Quickshell.iconPath("preferences-desktop-sound", "") || Quickshell.iconPath("audio-volume-high", "");
+                if (soundIcon)
+                    return soundIcon;
+            }
+        }
+
         const iconName = props["application.icon-name"] || props["media.icon-name"] || "";
         if (iconName) {
             const path = Quickshell.iconPath(iconName, "");
@@ -113,9 +130,9 @@ Singleton {
                 return path;
         }
 
-        const appName = props["application.name"] || props["application.process.binary"] || stream.name || "";
-        if (appName) {
-            const icon = DesktopEntries.heuristicLookup(appName)?.icon;
+        const lookupName = appName || appBinary || stream.name || "";
+        if (lookupName) {
+            const icon = DesktopEntries.heuristicLookup(lookupName)?.icon;
             if (icon) {
                 const path = Quickshell.iconPath(icon, "");
                 if (path)
@@ -129,8 +146,21 @@ Singleton {
     function getStreamName(stream: PwNode): string {
         if (!stream)
             return qsTr("Unknown");
+
+        const props = stream.properties || {};
+        const nodeName = props["node.name"] || stream.name || "";
+        const appName = props["application.name"] || "";
+        const appBinary = props["application.process.binary"] || "";
+
+        if (nodeName === "quickshell" || appName === "quickshell" || appBinary === "quickshell" || appBinary.endsWith("/quickshell") || stream.name === "quickshell") {
+            const role = (props["media.role"] || "").toLowerCase();
+            if (role === "notification")
+                return qsTr("System Notifications");
+            return qsTr("System Sounds");
+        }
+
         // Try application name first, then description, then name
-        return stream.properties["application.name"] || stream.description || stream.name || qsTr("Unknown Application");
+        return props["application.name"] || stream.description || stream.name || qsTr("Unknown Application");
     }
 
     function playSound(sfx: SoundEffect, setting: bool): void {
